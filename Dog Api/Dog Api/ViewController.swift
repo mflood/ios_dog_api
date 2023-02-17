@@ -21,6 +21,8 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     @IBOutlet weak var image: UIImageView!
     
     let breedList: [String] = ["hound", "pitt", "terrier"]
+    let imageLocation = KittenImageLocation.https.rawValue
+    
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -45,9 +47,27 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         self.picker.dataSource = self
         
         // Do any additional setup after loading the view.
+        self.loadKittenImage()
     }
     
     
+    func loadKittenImage() {
+        guard let imageUrl = URL(string: self.imageLocation) else {
+            print("Bad URL")
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: imageUrl, completionHandler: {
+            (data,response, error) in
+            
+            
+        })
+        task.resume()
+                                            
+        
+        
+        
+    }
 
 
 }
