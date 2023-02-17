@@ -21,7 +21,7 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     @IBOutlet weak var image: UIImageView!
     
     let breedList: [String] = ["hound", "pitt", "terrier"]
-    let imageLocation = KittenImageLocation.https.rawValue
+    let imageLocation = KittenImageLocation.http.rawValue
     
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -60,7 +60,13 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         let task = URLSession.shared.dataTask(with: imageUrl, completionHandler: {
             (data,response, error) in
             
+            guard let data = data else {
+                print("there was an error getting data")
+                return
+            }
             
+            let downloadImage = UIImage(data: data)
+            self.image.image = downloadImage
         })
         task.resume()
                                             
