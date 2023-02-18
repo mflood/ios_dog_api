@@ -61,16 +61,18 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     func getDogImageUrlUsingCodable() {
         
-        DogApi.requestRandomImageUrl { (dogImage, error) in
-            guard let dogImage = dogImage else {
-                return
-            }
-            guard let imageUrl = URL(string: dogImage.message) else {
-                return
-            }
-            DogApi.requestImageFile(url: imageUrl,
-                                    completionHandler: self.handleImageFileResponse(image:error:))
+        DogApi.requestRandomImageUrl(completionHandler: self.handleRandomImageUrlResponse(dogImage:error:))
+    }
+    
+    func handleRandomImageUrlResponse(dogImage: DogImage?, error: Error?) {
+        guard let dogImage = dogImage else {
+            return
         }
+        guard let imageUrl = URL(string: dogImage.message) else {
+            return
+        }
+        DogApi.requestImageFile(url: imageUrl,
+                                completionHandler: self.handleImageFileResponse(image:error:))
     }
     
     func handleImageFileResponse(image: UIImage?, error: Error?) {
