@@ -54,6 +54,73 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         
         // Do any additional setup after loading the view.
         self.downloadKittenImage()
+        self.getDogImageUrl()
+    }
+    
+    
+    func getDogImageUrlJsonSerialization() {
+        // Uses JSONSerialization....
+        let randomDogUrl = DogApi.Endpoint.randomImageFromAllDogsCollection.url
+        print(randomDogUrl)
+        let task = URLSession.shared.dataTask(with: randomDogUrl) { data, response, error in
+            
+            guard let data = data else {
+                print("no random dog data!")
+                return
+            }
+            // data is json
+            print(data)
+            
+            do {
+                let json = try JSONSerialization.jsonObject(with: data)
+                print(json)
+                
+                let jsonDict = try JSONSerialization.jsonObject(with: data) as! [String: Any]
+                
+                print(jsonDict)
+                
+                let url = jsonDict["message"] as! String
+                print(url)
+                
+            } catch {
+                print(error)
+            }
+            
+        }
+        task.resume()
+    }
+    
+    
+    func getDogImageUrlJsonSerialization() {
+        // Uses JSONSerialization....
+        let randomDogUrl = DogApi.Endpoint.randomImageFromAllDogsCollection.url
+        print(randomDogUrl)
+        let task = URLSession.shared.dataTask(with: randomDogUrl) { data, response, error in
+            
+            guard let data = data else {
+                print("no random dog data!")
+                return
+            }
+            // data is json
+            print(data)
+            
+            do {
+                let json = try JSONSerialization.jsonObject(with: data)
+                print(json)
+                
+                let jsonDict = try JSONSerialization.jsonObject(with: data) as! [String: Any]
+                
+                print(jsonDict)
+                
+                let url = jsonDict["message"] as! String
+                print(url)
+                
+            } catch {
+                print(error)
+            }
+            
+        }
+        task.resume()
     }
     
     
