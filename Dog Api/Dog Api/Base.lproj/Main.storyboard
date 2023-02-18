@@ -17,14 +17,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="IjI-bN-jEv">
-                                <rect key="frame" x="0.0" y="-84" width="393" height="936"/>
+                                <rect key="frame" x="0.0" y="136" width="393" height="716"/>
                                 <subviews>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CTE-U9-K3O">
                                         <rect key="frame" x="0.0" y="0.0" width="393" height="216"/>
                                     </pickerView>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IMG_3445" translatesAutoresizingMaskIntoConstraints="NO" id="Dc2-Ct-jZA">
-                                        <rect key="frame" x="0.0" y="216" width="393" height="720"/>
+                                        <rect key="frame" x="0.0" y="216" width="393" height="500"/>
                                         <color key="backgroundColor" systemColor="systemYellowColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="500" id="vB4-gg-hZp"/>
+                                        </constraints>
                                     </imageView>
                                 </subviews>
                             </stackView>

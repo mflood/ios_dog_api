@@ -41,6 +41,8 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         print("\(self.breedList[row])")
+        self.getDogImageUrlUsingCodable()
+        
     }
     
     override func viewDidLoad() {
@@ -53,10 +55,9 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         self.picker.selectRow(0, inComponent: 0, animated: false)
         
         // Do any additional setup after loading the view.
-        self.downloadKittenImage()
+        // self.downloadKittenImage()
         self.getDogImageUrlUsingCodable()
     }
-    
     
     func getDogImageUrlUsingCodable() {
         // Uses JSONSerialization....
@@ -79,9 +80,15 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                 guard let imageUrl = URL(string: imageData.message) else {
                     return
                 }
-                
                 print(imageUrl)
-                
+                DogApi.requestImageFile(url: imageUrl) { image, error in
+                    guard let image = image else {
+                            return
+                    }
+                    DispatchQueue.main.async {
+                        self.image.image = image
+                    }
+                }
             } catch {
                 print(error)
             }
