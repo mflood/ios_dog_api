@@ -60,34 +60,17 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     func getDogImageUrlUsingCodable() {
-        // Uses JSONSerialization....
-        let randomDogUrl = DogApi.Endpoint.randomImageFromAllDogsCollection.url
-        print(randomDogUrl)
-        let task = URLSession.shared.dataTask(with: randomDogUrl) { data, response, error in
-            
-            guard let data = data else {
-                print("no random dog data!")
+        
+        DogApi.requestRandomImageUrl { (dogImage, error) in
+            guard let dogImage = dogImage else {
                 return
             }
-            // data is json
-            print(data)
-            
-            let decoder = JSONDecoder()
-            
-            do {
-                let imageData = try decoder.decode(DogImage.self, from: data)
-                print(imageData)
-                guard let imageUrl = URL(string: imageData.message) else {
-                    return
-                }
-                print(imageUrl)
-                DogApi.requestImageFile(url: imageUrl,
-                                        completionHandler: self.handleImageFileResponse(image:error:))
-            } catch {
-                print(error)
+            guard let imageUrl = URL(string: dogImage.message) else {
+                return
             }
+            DogApi.requestImageFile(url: imageUrl,
+                                    completionHandler: self.handleImageFileResponse(image:error:))
         }
-        task.resume()
     }
     
     func handleImageFileResponse(image: UIImage?, error: Error?) {
