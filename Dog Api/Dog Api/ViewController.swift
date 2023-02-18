@@ -81,14 +81,8 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
                     return
                 }
                 print(imageUrl)
-                DogApi.requestImageFile(url: imageUrl) { image, error in
-                    guard let image = image else {
-                            return
-                    }
-                    DispatchQueue.main.async {
-                        self.image.image = image
-                    }
-                }
+                DogApi.requestImageFile(url: imageUrl,
+                                        completionHandler: self.handleImageFileResponse(image:error:))
             } catch {
                 print(error)
             }
@@ -96,6 +90,11 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         task.resume()
     }
     
+    func handleImageFileResponse(image: UIImage?, error: Error?) {
+        DispatchQueue.main.async {
+            self.image.image = image
+        }
+    }
     
     func getDogImageUrlJsonSerialization() {
         // Uses JSONSerialization....
