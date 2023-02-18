@@ -53,7 +53,30 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         self.picker.selectRow(0, inComponent: 0, animated: false)
         
         // Do any additional setup after loading the view.
-        self.loadKittenImage()
+        self.downloadKittenImage()
+    }
+    
+    
+    func downloadKittenImage() {
+        guard let imageUrl = URL(string: self.imageLocation) else {
+            print("Bad URL")
+            return
+        }
+        
+        
+        let task = URLSession.shared.downloadTask(with: imageUrl) { (location, response, error) in
+            guard let location = location else {
+                print("location is nil")
+                return
+            }
+            print(location)
+            let imageData = try! Data(contentsOf: location)
+            let downloadImage = UIImage(data: imageData)
+            DispatchQueue.main.async {
+                self.image.image = downloadImage
+            }
+        }
+        task.resume()
     }
     
     func loadKittenImage() {
