@@ -54,11 +54,11 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         
         // Do any additional setup after loading the view.
         self.downloadKittenImage()
-        self.getDogImageUrl()
+        self.getDogImageUrlUsingCodable()
     }
     
     
-    func getDogImageUrlJsonSerialization() {
+    func getDogImageUrlUsingCodable() {
         // Uses JSONSerialization....
         let randomDogUrl = DogApi.Endpoint.randomImageFromAllDogsCollection.url
         print(randomDogUrl)
@@ -71,21 +71,20 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             // data is json
             print(data)
             
+            let decoder = JSONDecoder()
+            
             do {
-                let json = try JSONSerialization.jsonObject(with: data)
-                print(json)
+                let imageData = try decoder.decode(DogImage.self, from: data)
+                print(imageData)
+                guard let imageUrl = URL(string: imageData.message) else {
+                    return
+                }
                 
-                let jsonDict = try JSONSerialization.jsonObject(with: data) as! [String: Any]
-                
-                print(jsonDict)
-                
-                let url = jsonDict["message"] as! String
-                print(url)
+                print(imageUrl)
                 
             } catch {
                 print(error)
             }
-            
         }
         task.resume()
     }
