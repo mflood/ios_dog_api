@@ -29,6 +29,9 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        guard component == 0 else {
+            return 0
+        }
         return self.breedList.count
     }
 
@@ -46,10 +49,12 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
         self.picker.delegate = self
         self.picker.dataSource = self
         
+        
+        self.picker.selectRow(0, inComponent: 0, animated: false)
+        
         // Do any additional setup after loading the view.
         self.loadKittenImage()
     }
-    
     
     func loadKittenImage() {
         guard let imageUrl = URL(string: self.imageLocation) else {
@@ -66,13 +71,11 @@ class ViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSo
             }
             
             let downloadImage = UIImage(data: data)
-            self.image.image = downloadImage
+            DispatchQueue.main.async {
+                self.image.image = downloadImage
+            }
         })
         task.resume()
-                                            
-        
-        
-        
     }
 
 
